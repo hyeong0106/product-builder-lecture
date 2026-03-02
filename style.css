@@ -80,6 +80,59 @@ h1, h2 {
     margin-top: 1rem;
 }
 
+.test-mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mode-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.webcam-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.webcam-container canvas {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    max-width: 100%;
+}
+
+.label-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.label-container div {
+    background: var(--input-bg);
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
 .upload-area {
     border: 3px dashed var(--input-border);
     border-radius: 15px;

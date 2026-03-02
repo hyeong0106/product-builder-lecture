@@ -98,8 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Animal Face Test Logic ---
     const URL = "https://teachablemachine.withgoogle.com/models/w4SCtq2nK/";
-    let model, maxPredictions;
+    let model, webcam, labelContainer, maxPredictions;
+    let isWebcamMode = false;
+    let animationId;
 
+    const modeUploadBtn = document.getElementById('mode-upload-btn');
+    const modeWebcamBtn = document.getElementById('mode-webcam-btn');
+    const uploadMode = document.getElementById('upload-mode');
+    const webcamMode = document.getElementById('webcam-mode');
+    const webcamContainer = document.getElementById('webcam-container');
+    const startWebcamBtn = document.getElementById('start-webcam-btn');
+    const stopWebcamBtn = document.getElementById('stop-webcam-btn');
+    
     const uploadArea = document.getElementById('upload-area');
     const imageUpload = document.getElementById('image-upload');
     const resultArea = document.getElementById('result-area');
@@ -107,6 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const predictionResult = document.getElementById('prediction-result');
     const retryBtn = document.getElementById('retry-btn');
     const spinner = document.getElementById('loading-spinner');
+    labelContainer = document.getElementById('label-container');
+
+    // Mode Toggling
+    modeUploadBtn.addEventListener('click', () => {
+        isWebcamMode = false;
+        modeUploadBtn.classList.add('active');
+        modeWebcamBtn.classList.remove('active');
+        uploadMode.classList.remove('hidden');
+        webcamMode.classList.add('hidden');
+        stopWebcam();
+        resetTest();
+    });
+
+    modeWebcamBtn.addEventListener('click', () => {
+        isWebcamMode = true;
+        modeWebcamBtn.classList.add('active');
+        modeUploadBtn.classList.remove('active');
+        webcamMode.classList.remove('hidden');
+        uploadMode.classList.add('hidden');
+        resetTest();
+    });
 
     async function initModel() {
         if (model) return;
@@ -116,11 +147,80 @@ document.addEventListener('DOMContentLoaded', () => {
         maxPredictions = model.getTotalClasses();
     }
 
+    // --- Webcam Logic ---
+    async function startWebcam() {
+        startWebcamBtn.classList.add('hidden');
+        spinner.classList.remove('hidden');
+        
+        try {
+            await initModel();
+            
+            const flip = true;
+            webcam = new tmImage.Webcam(300, 300, flip);
+            await webcam.setup();
+            await webcam.play();
+            
+            spinner.classList.add('hidden');
+            stopWebcamBtn.classList.remove('hidden');
+            webcamContainer.appendChild(webcam.canvas);
+            
+            labelContainer.innerHTML = '';
+            for (let i = 0; i < maxPredictions; i++) {
+                labelContainer.appendChild(document.createElement("div"));
+            }
+            
+            loop();
+        } catch (error) {
+            console.error("Webcam init failed:", error);
+            alert("웹캠을 시작할 수 없습니다. 권한을 확인해주세요.");
+            resetWebcamUI();
+        }
+    }
+
+    function stopWebcam() {
+        if (webcam) {
+            webcam.stop();
+            webcam = null;
+        }
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+        }
+        webcamContainer.innerHTML = '';
+        labelContainer.innerHTML = '';
+        resetWebcamUI();
+    }
+
+    function resetWebcamUI() {
+        startWebcamBtn.classList.remove('hidden');
+        stopWebcamBtn.classList.add('hidden');
+        spinner.classList.add('hidden');
+    }
+
+    async function loop() {
+        if (webcam && webcam.canvas) {
+            webcam.update();
+            await predictWebcam();
+            animationId = window.requestAnimationFrame(loop);
+        }
+    }
+
+    async function predictWebcam() {
+        const prediction = await model.predict(webcam.canvas);
+        for (let i = 0; i < maxPredictions; i++) {
+            const className = prediction[i].className;
+            const prob = prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = `<span>${className}</span><span>${Math.round(prob * 100)}%</span>`;
+        }
+    }
+
+    startWebcamBtn.addEventListener('click', startWebcam);
+    stopWebcamBtn.addEventListener('click', stopWebcam);
+
+    // --- Image Upload Logic ---
     imageUpload.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Show spinner and hide upload area
         uploadArea.classList.add('hidden');
         spinner.classList.remove('hidden');
 
@@ -130,35 +230,35 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 await initModel();
-                
-                // Create a temporary image element to predict
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = async () => {
                     const prediction = await model.predict(img);
-                    
-                    // Sort predictions to get the highest one
                     prediction.sort((a, b) => b.probability - a.probability);
                     
                     const topResult = prediction[0];
                     const probability = Math.round(topResult.probability * 100);
                     
                     let resultText = "";
-                    if (topResult.className === "강아지") {
-                        resultText = `🐶 당신은 ${probability}% 확률로 강아지상입니다!`;
-                    } else if (topResult.className === "고양이") {
-                        resultText = `🐱 당신은 ${probability}% 확률로 고양이상입니다!`;
-                    } else {
-                        resultText = `🤔 당신은 ${probability}% 확률로 ${topResult.className}상입니다!`;
-                    }
+                    if (topResult.className === "강아지") resultText = `🐶 강아지상 (${probability}%)`;
+                    else if (topResult.className === "고양이") resultText = `🐱 고양이상 (${probability}%)`;
+                    else resultText = `🤔 ${topResult.className}상 (${probability}%)`;
 
                     predictionResult.textContent = resultText;
+                    
+                    // Show detailed labels even for upload
+                    labelContainer.innerHTML = '';
+                    prediction.forEach(p => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `<span>${p.className}</span><span>${Math.round(p.probability * 100)}%</span>`;
+                        labelContainer.appendChild(div);
+                    });
+
                     spinner.classList.add('hidden');
                     resultArea.classList.remove('hidden');
                 };
             } catch (error) {
-                console.error("Model prediction failed:", error);
-                alert("분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+                console.error("Prediction failed:", error);
                 resetTest();
             }
         };
@@ -170,6 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resultArea.classList.add('hidden');
         spinner.classList.add('hidden');
         imageUpload.value = "";
+        predictionResult.textContent = "";
+        labelContainer.innerHTML = '';
     }
 
     retryBtn.addEventListener('click', resetTest);

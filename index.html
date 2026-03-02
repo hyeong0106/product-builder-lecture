@@ -23,21 +23,39 @@
         <!-- Animal Face Test Section -->
         <div class="container animal-test-container">
             <h2>나와 닮은 동물상 테스트</h2>
-            <p class="subtitle">사진을 업로드하여 강아지상인지 고양이상인지 확인해보세요!</p>
+            <p class="subtitle">사진을 업로드하거나 웹캠을 통해 실시간으로 확인해보세요!</p>
             
-            <div id="upload-area" class="upload-area">
-                <input type="file" id="image-upload" accept="image/*" hidden>
-                <label for="image-upload" class="upload-label">
-                    <span class="upload-icon">📸</span>
-                    <span class="upload-text">사진 업로드하기</span>
-                </label>
+            <div class="test-mode-toggle">
+                <button id="mode-upload-btn" class="mode-btn active">사진 업로드</button>
+                <button id="mode-webcam-btn" class="mode-btn">실시간 웹캠</button>
+            </div>
+
+            <!-- Upload Mode -->
+            <div id="upload-mode" class="mode-content">
+                <div id="upload-area" class="upload-area">
+                    <input type="file" id="image-upload" accept="image/*" hidden>
+                    <label for="image-upload" class="upload-label">
+                        <span class="upload-icon">📸</span>
+                        <span class="upload-text">사진 업로드하기</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Webcam Mode -->
+            <div id="webcam-mode" class="mode-content hidden">
+                <div id="webcam-container" class="webcam-container"></div>
+                <button id="start-webcam-btn" class="submit-btn">웹캠 시작하기</button>
+                <button id="stop-webcam-btn" class="secondary-btn hidden">웹캠 중지</button>
             </div>
 
             <div id="loading-spinner" class="spinner hidden"></div>
             
             <div id="result-area" class="result-area hidden">
-                <img id="preview-image" src="" alt="Preview">
+                <div id="image-preview-container">
+                    <img id="preview-image" src="" alt="Preview">
+                </div>
                 <div id="prediction-result" class="prediction-result"></div>
+                <div id="label-container" class="label-container"></div>
                 <button id="retry-btn" class="secondary-btn">다시 하기</button>
             </div>
         </div>

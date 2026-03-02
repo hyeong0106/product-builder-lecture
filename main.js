@@ -95,4 +95,82 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial generation and load disqus
     displayNumbers(generateNumbers());
     loadDisqus();
+
+    // --- Animal Face Test Logic ---
+    const URL = "https://teachablemachine.withgoogle.com/models/w4SCtq2nK/";
+    let model, maxPredictions;
+
+    const uploadArea = document.getElementById('upload-area');
+    const imageUpload = document.getElementById('image-upload');
+    const resultArea = document.getElementById('result-area');
+    const previewImage = document.getElementById('preview-image');
+    const predictionResult = document.getElementById('prediction-result');
+    const retryBtn = document.getElementById('retry-btn');
+    const spinner = document.getElementById('loading-spinner');
+
+    async function initModel() {
+        if (model) return;
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+    }
+
+    imageUpload.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Show spinner and hide upload area
+        uploadArea.classList.add('hidden');
+        spinner.classList.remove('hidden');
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            previewImage.src = event.target.result;
+            
+            try {
+                await initModel();
+                
+                // Create a temporary image element to predict
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = async () => {
+                    const prediction = await model.predict(img);
+                    
+                    // Sort predictions to get the highest one
+                    prediction.sort((a, b) => b.probability - a.probability);
+                    
+                    const topResult = prediction[0];
+                    const probability = Math.round(topResult.probability * 100);
+                    
+                    let resultText = "";
+                    if (topResult.className === "강아지") {
+                        resultText = `🐶 당신은 ${probability}% 확률로 강아지상입니다!`;
+                    } else if (topResult.className === "고양이") {
+                        resultText = `🐱 당신은 ${probability}% 확률로 고양이상입니다!`;
+                    } else {
+                        resultText = `🤔 당신은 ${probability}% 확률로 ${topResult.className}상입니다!`;
+                    }
+
+                    predictionResult.textContent = resultText;
+                    spinner.classList.add('hidden');
+                    resultArea.classList.remove('hidden');
+                };
+            } catch (error) {
+                console.error("Model prediction failed:", error);
+                alert("분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+                resetTest();
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function resetTest() {
+        uploadArea.classList.remove('hidden');
+        resultArea.classList.add('hidden');
+        spinner.classList.add('hidden');
+        imageUpload.value = "";
+    }
+
+    retryBtn.addEventListener('click', resetTest);
 });

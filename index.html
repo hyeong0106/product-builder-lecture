@@ -5,16 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로또 번호 추첨기</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for icons (optional, but using text/emoji for simplicity here) -->
 </head>
 <body>
-    <div class="container">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-            <span id="theme-icon">🌙</span>
-        </button>
-        <h1>로또 번호 추첨기</h1>
-        <div id="numbers-container"></div>
-        <button id="generate-btn">번호 생성</button>
+    <div class="main-wrapper">
+        <div class="container">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                <span id="theme-icon">🌙</span>
+            </button>
+            <h1>로또 번호 추첨기</h1>
+            <div id="numbers-container"></div>
+            <button id="generate-btn">번호 생성</button>
+        </div>
+
+        <div class="contact-section">
+            <button id="toggle-contact-btn" class="secondary-btn">제휴 문의하기</button>
+            
+            <div id="contact-form-container" class="hidden">
+                <form action="https://formspree.io/f/mjgedqqj" method="POST" class="contact-form">
+                    <h3>제휴 문의</h3>
+                    <div class="form-group">
+                        <label for="email">이메일 주소</label>
+                        <input type="email" id="email" name="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">문의 내용</label>
+                        <textarea id="message" name="message" required placeholder="문의하실 내용을 입력해주세요."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">문의 보내기</button>
+                </form>
+            </div>
+        </div>
     </div>
     <script src="main.js" type="module"></script>
 </body>

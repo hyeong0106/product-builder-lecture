@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeIcon = document.getElementById('theme-icon');
     const html = document.documentElement;
 
+    // --- Contact Form Logic ---
+    const toggleContactBtn = document.getElementById('toggle-contact-btn');
+    const contactFormContainer = document.getElementById('contact-form-container');
+
+    toggleContactBtn.addEventListener('click', () => {
+        contactFormContainer.classList.toggle('hidden');
+        toggleContactBtn.textContent = contactFormContainer.classList.contains('hidden') 
+            ? '제휴 문의하기' 
+            : '문의 창 닫기';
+    });
+
     // --- Theme Logic ---
     const savedTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', savedTheme);

@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Disqus Logic ---
     const disqusThread = document.getElementById('disqus_thread');
     if (disqusThread) {
+        window.disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = window.location.pathname;
+        };
         const loadDisqus = () => {
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = window.location.pathname;
-            };
             (function() {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://productbuilder-7xuyaqptkc.disqus.com/embed.js';

@@ -71,6 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNumbers(lottoNumbers);
     });
 
-    // Initial generation
+    // --- Disqus Logic ---
+    const loadDisqus = () => {
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+         */
+        
+        var disqus_config = function () {
+            this.page.url = window.location.href;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = 'lotto-generator-index'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            // IMPORTANT: Replace 'productbuilder-7xuyaqptkc' with your own Disqus shortname.
+            s.src = 'https://productbuilder-7xuyaqptkc.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    };
+
+    // Initial generation and load disqus
     displayNumbers(generateNumbers());
+    loadDisqus();
 });

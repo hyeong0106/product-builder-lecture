@@ -10,13 +10,14 @@
 - **동물상 테스트:** Google Teachable Machine으로 학습된 모델을 연동하여, 사용자가 업로드한 사진을 분석해 강아지상 혹은 고양이상 여부를 확률과 함께 보여줍니다.
 - **테마 전환:** 다크 모드와 라이트 모드를 자유롭게 전환할 수 있으며, 사용자의 선택은 브라우저에 저장되어 재방문 시에도 유지됩니다.
 - **댓글 기능:** Disqus를 연동하여 사용자 간의 소통과 피드백을 수집할 수 있는 댓글 섹션을 하단에 배치했습니다.
+- **광고 수익화:** Google AdSense를 연동하여 수익 창출이 가능하도록 설정했습니다.
 - **제휴 문의:** Formspree를 연동하여 이메일과 메시지를 통해 제휴 문의를 보낼 수 있는 폼을 제공합니다.
 
 ## 기술 스택
 
 - **Frontend:** HTML5, CSS3 (Baseline features), JavaScript (ES Modules)
 - **AI/ML:** TensorFlow.js, Teachable Machine Image SDK
-- **Backend-less:** Formspree (Contact), Disqus (Comments)
+- **Backend-less:** Formspree (Contact), Disqus (Comments), Google AdSense (Ads)
 
 ## 디자인 및 스타일
 
@@ -27,11 +28,12 @@
 ## 구현 상세 (최근 변경 사항)
 
 - **AI 동물상 테스트 통합:** `teachablemachine-image` 라이브러리를 사용하여 브라우저 상에서 실시간으로 이미지를 분석하도록 구현했습니다.
-- **이미지 미리보기 및 결과 표시:** 업로드한 사진을 즉시 확인하고, 분석 결과를 직관적인 텍스트와 이모지로 표시합니다.
+- **Google AdSense 통합:** 계정 확인용 메타 태그 및 광고 스크립트를 추가하고, `ads.txt` 파일을 생성하여 수익 창출 기반을 마련했습니다.
 - **Disqus 댓글 시스템 통합:** 페이지 하단에 실시간 댓글 소통이 가능한 Disqus 위젯을 추가했습니다.
 
 ## 설정 및 주의 사항
 
+- **AdSense 설정:** `ads.txt` 파일에 `ca-pub-4654180429372750` 게시자 ID가 포함되어 있습니다.
 - **Disqus 설정:** `main.js` 파일 내 `loadDisqus` 함수에서 `productbuilder-7xuyaqptkc` shortname이 적용되었습니다. 필요 시 해당 파일에서 다른 shortname으로 변경 가능합니다.
 - **Formspree 설정:** 제휴 문의 폼의 `action` URL을 사용자의 Formspree 엔드포인트로 변경하여 실제 문의를 받을 수 있습니다.
 

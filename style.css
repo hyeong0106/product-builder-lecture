@@ -1,69 +1,136 @@
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg: #ffffff;
+    --text-color: #333333;
+    --primary-color: #1a237e;
+    --primary-hover: #0d134b;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --btn-shadow: rgba(26, 35, 126, 0.4);
+    --btn-hover-shadow: rgba(26, 35, 126, 0.5);
+    --gradient-start: #dfe9f3;
+    --gradient-end: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --primary-color: #3f51b5;
+    --primary-hover: #5c6bc0;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --btn-shadow: rgba(63, 81, 181, 0.4);
+    --btn-hover-shadow: rgba(63, 81, 181, 0.5);
+    --gradient-start: #000000;
+    --gradient-end: #1a1a1a;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+    background-image: linear-gradient(to top, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
     text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: var(--container-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px var(--shadow-color);
     width: 90%;
     max-width: 500px;
+    position: relative;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 h1 {
-    color: #1a237e;
-    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-weight: 700;
 }
 
 #numbers-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 2rem;
+    gap: 12px;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
+    min-height: 60px;
 }
 
 .number-circle {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
 .number-circle:hover {
-    transform: translateY(-5px);
+    transform: scale(1.1) translateY(-5px);
 }
 
 #generate-btn {
-    background-color: #1a237e;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
-    border-radius: 8px;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px rgba(26, 35, 126, 0.4);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px var(--btn-shadow);
 }
 
 #generate-btn:hover {
-    background-color: #0d134b;
-    box-shadow: 0 6px 20px rgba(26, 35, 126, 0.5);
+    background-color: var(--primary-hover);
+    box-shadow: 0 10px 25px var(--btn-hover-shadow);
+    transform: translateY(-2px);
+}
+
+#generate-btn:active {
+    transform: translateY(1px);
+}
+
+/* Theme Toggle Component Styling */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
 }

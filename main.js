@@ -1,7 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     const numbersContainer = document.getElementById('numbers-container');
     const generateBtn = document.getElementById('generate-btn');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
 
+    // --- Theme Logic ---
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+
+    // --- Lotto Logic ---
     const getNumberColor = (number) => {
         if (number <= 10) return '#fbc400'; // 노란색
         if (number <= 20) return '#69c8f2'; // 파란색
@@ -29,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 circle.style.backgroundColor = getNumberColor(number);
                 circle.style.animation = `fadeIn 0.5s ease-in-out`;
                 numbersContainer.appendChild(circle);
-            }, index * 200); // 번호가 순차적으로 나타나도록 지연 추가
+            }, index * 150);
         });
     };
 
@@ -38,6 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         displayNumbers(lottoNumbers);
     });
 
-    // 초기 로드 시 번호 생성
+    // Initial generation
     displayNumbers(generateNumbers());
 });

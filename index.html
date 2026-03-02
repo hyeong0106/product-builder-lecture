@@ -3,116 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추첨기 & 동물상 테스트</title>
+    <title>로또 번호 추첨기 | 행운을 부르는 번호 생성</title>
     <meta name="google-adsense-account" content="ca-pub-4654180429372750">
     <link rel="stylesheet" href="style.css">
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4654180429372750"
-     crossorigin="anonymous"></script>
-    <!-- TensorFlow.js and Teachable Machine Image -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4654180429372750" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="top-nav">
-        <a href="index.html">홈</a>
-        <a href="about.html">소개</a>
-        <a href="privacy.html">개인정보처리방침</a>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🍀 LuckTools</a>
+            <div class="nav-links">
+                <a href="index.html" class="active">로또추첨</a>
+                <a href="animal-test.html">동물상테스트</a>
+                <a href="stats.html">통계정보</a>
+                <a href="blog.html">블로그</a>
+            </div>
+        </div>
     </nav>
+
+    <header class="hero-section">
+        <h1>나만의 행운 번호 찾기</h1>
+        <p>빅데이터나 복잡한 알고리즘이 아닌, 당신의 운명을 믿어보세요. 매주 수만 명의 사람들이 이용하는 로또 추첨기입니다.</p>
+    </header>
+
     <div class="main-wrapper">
         <div class="container">
             <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
                 <span id="theme-icon">🌙</span>
             </button>
-            <h1>로또 번호 추첨기</h1>
+            <h2>행운의 6개 번호</h2>
             <div id="numbers-container"></div>
-            <button id="generate-btn">번호 생성</button>
+            <button id="generate-btn">지금 바로 생성</button>
         </div>
 
-        <!-- Animal Face Test Section -->
-        <div class="container animal-test-container">
-            <h2>나와 닮은 동물상 테스트</h2>
-            <p class="subtitle">사진을 업로드하거나 웹캠을 통해 실시간으로 확인해보세요!</p>
-            
-            <div class="test-mode-toggle">
-                <button id="mode-upload-btn" class="mode-btn active">사진 업로드</button>
-                <button id="mode-webcam-btn" class="mode-btn">실시간 웹캠</button>
-            </div>
-
-            <!-- Upload Mode -->
-            <div id="upload-mode" class="mode-content">
-                <div id="upload-area" class="upload-area">
-                    <input type="file" id="image-upload" accept="image/*" hidden>
-                    <label for="image-upload" class="upload-label">
-                        <span class="upload-icon">📸</span>
-                        <span class="upload-text">사진 업로드하기</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Webcam Mode -->
-            <div id="webcam-mode" class="mode-content hidden">
-                <div id="webcam-container" class="webcam-container"></div>
-                <button id="start-webcam-btn" class="submit-btn">웹캠 시작하기</button>
-                <button id="stop-webcam-btn" class="secondary-btn hidden">웹캠 중지</button>
-            </div>
-
-            <div id="loading-spinner" class="spinner hidden"></div>
-            
-            <div id="result-area" class="result-area hidden">
-                <div id="image-preview-container">
-                    <img id="preview-image" src="" alt="Preview">
-                </div>
-                <div id="prediction-result" class="prediction-result"></div>
-                <div id="label-container" class="label-container"></div>
-                <button id="retry-btn" class="secondary-btn">다시 하기</button>
-            </div>
-        </div>
-
-        <!-- High-Quality Content Section -->
         <div class="container info-section">
-            <h2>알아두면 좋은 정보</h2>
+            <h2>로또 당첨을 향한 첫 걸음</h2>
             <div class="article-grid">
                 <article>
-                    <h3>로또 번호 당첨 확률을 높이는 방법?</h3>
-                    <p>로또는 완전한 무작위 확률 게임입니다. 하지만 통계적으로 자주 나오는 번호 조합이나 '홀짝 비율'을 맞추는 등 자신만의 전략을 세우는 것은 분석의 재미를 더해줍니다.</p>
+                    <h3>공정한 확률의 미학</h3>
+                    <p>로또 6/45는 8,145,060분의 1이라는 정교한 확률로 설계되어 있습니다. 본 추첨기는 브라우저의 강력한 난수 생성 엔진을 활용하여 매번 독립적이고 공정한 결과를 제공합니다.</p>
                 </article>
                 <article>
-                    <h3>강아지상 vs 고양이상: 얼굴 분석의 과학</h3>
-                    <p>동물상 분석은 얼굴의 각도, 눈의 형태, 입매 등을 인공지능이 수만 장의 데이터를 바탕으로 학습하여 판단합니다. 강아지상은 주로 부드러운 눈매를, 고양이상은 날렵한 눈매를 특징으로 합니다.</p>
-                </article>
-                <article>
-                    <h3>인공지능(AI) 기술의 일상화</h3>
-                    <p>Teachable Machine과 같은 도구 덕분에 이제 복잡한 프로그래밍 없이도 누구나 AI 모델을 활용한 재미있는 웹 서비스를 만들 수 있게 되었습니다.</p>
+                    <h3>번피(번호 피하기) 전략?</h3>
+                    <p>많은 당첨자들이 자신만의 특별한 날짜나 반복되는 숫자를 피하고, 완전한 무작위를 선택했을 때 좋은 결과를 얻었다고 말합니다. 무작위의 힘을 믿어보세요.</p>
                 </article>
             </div>
         </div>
 
-        <div class="contact-section">
-            <button id="toggle-contact-btn" class="secondary-btn">제휴 문의하기</button>
-            
-            <div id="contact-form-container" class="hidden">
-                <form action="https://formspree.io/f/mjgedqqj" method="POST" class="contact-form">
-                    <h3>제휴 문의</h3>
-                    <div class="form-group">
-                        <label for="email">이메일 주소</label>
-                        <input type="email" id="email" name="email" required placeholder="example@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">문의 내용</label>
-                        <textarea id="message" name="message" required placeholder="문의하실 내용을 입력해주세요."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">문의 보내기</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Disqus Comments Section -->
         <div class="comments-section">
             <div id="disqus_thread"></div>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="about.html">회사소개</a>
+            <a href="privacy.html">개인정보처리방침</a>
+            <a href="contact.html">제휴문의</a>
+        </div>
+        <p>&copy; 2026 LuckTools. All rights reserved.</p>
+    </footer>
+
     <script src="main.js" type="module"></script>
 </body>
 </html>
